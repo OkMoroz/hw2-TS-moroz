@@ -101,18 +101,23 @@ class Level {
   }
 }
 
+enum GroupStatus {
+  ACTIVE = "Active",
+  INACTIVE = "Inactive",
+  PENDING = "Pending",
+}
 class Group {
   // implement getters for fields and 'add/remove student' and 'set status' methods
 
   _area: Area;
-  _status: string;
+  _status: GroupStatus = GroupStatus.PENDING;
   _students: Student[] = [];
   directionName: string;
   levelName: string;
 
   constructor(directionName: string, levelName: string) {
     this._area = new Area(levelName);
-    this._status = "";
+    this._status = GroupStatus.PENDING;
     this.directionName = directionName;
     this.levelName = levelName;
   }
@@ -121,7 +126,7 @@ class Group {
     return this._area;
   }
 
-  get status(): string {
+  get status(): GroupStatus {
     return this._status;
   }
 
@@ -132,11 +137,12 @@ class Group {
   addStudent(student: Student): void {
     this._students.push(student);
   }
-  removeStudent(student: Student): void {
+  removeStudent(student: Student): Student[] {
     this._students = this._students.filter((item) => item !== student);
+    return this._students;
   }
 
-  setStatus(status: string): void {
+  setStatus(status: GroupStatus) {
     this._status = status;
   }
 
@@ -169,23 +175,23 @@ class Student {
     this._birthYear = birthYear;
   }
 
-  get fullName() {
+  get fullName(): string {
     return `${this._lastName} ${this._firstName}`;
   }
 
-  set fullName(value) {
+  set fullName(value: string) {
     [this._lastName, this._firstName] = value.split(" ");
   }
 
-  get age() {
+  get age(): number {
     return new Date().getFullYear() - this._birthYear;
   }
 
-  setGrades(grades: number[]): void {
+  setGrades(grades: number[]) {
     this._grades = grades;
   }
 
-  setVisit(visits: boolean[]): void {
+  setVisit(visits: boolean[]) {
     this._visits = visits;
   }
 
